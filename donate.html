@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Donor Registration - Kongu Blood Bank</title>
+  
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+  <style>
+    nav {
+      background-color:#cf0f47;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1030;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 20px rgba(207, 15, 71, 0.3);
+    }
+
+    .navbar-brand {
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+
+    .navbar-brand:hover {
+      color: #ffffff !important;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      transform: scale(1.05);
+    }
+
+    .nav-link {
+      position: relative;
+      transition: all 0.3s ease;
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem !important;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      color: #ffffff !important;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background-color: #ffffff;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover::after {
+      width: 80%;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      /* Mobile Navigation Center Alignment */
+      .navbar-nav {
+        text-align: center;
+      }
+      
+      .nav-item {
+        margin: 0.2rem 0;
+      }
+      
+      .nav-link {
+        padding: 0.8rem 1rem !important;
+        margin: 0;
+        border-radius: 8px;
+      }
+      
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    header {
+      background: linear-gradient(135deg, #cf0f47 0%, #a00d3a 100%);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    header h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    header i {
+      margin-right: 0.5rem;
+    }
+
+    .main-container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .deferral-card {
+      background: linear-gradient(135deg, #cf0f47 0%, #a00d3a 100%);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(207, 15, 71, 0.2);
+      color: white;
+      height: fit-content;
+      position: sticky;
+      top: 2rem;
+    }
+
+    .deferral-header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px 20px 0 0;
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .deferral-header h3 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    .deferral-header p {
+      opacity: 0.9;
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .deferral-list {
+      padding: 1.5rem;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .deferral-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .deferral-list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+
+    .deferral-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+    }
+
+    .deferral-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .deferral-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+    }
+
+    .deferral-number {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .deferral-text {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .form-header {
+      background: linear-gradient(135deg, #cf0f47 0%, #a00d3a 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .form-header h3 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 1.8rem;
+    }
+
+    .form-header p {
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    .form-body {
+      padding: 2.5rem;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-label i {
+      margin-right: 8px;
+      font-size: 1.1em;
+    }
+
+    .form-control, .form-select {
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background-color: #f8f9fa;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #cf0f47;
+      box-shadow: 0 0 0 0.2rem rgba(207, 15, 71, 0.15);
+      background-color: white;
+    }
+
+    .form-control.is-valid, .form-select.is-valid {
+      border-color: #28a745;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+      padding-right: 2.25rem;
+      background-repeat: no-repeat;
+      background-position: right calc(0.375em + 0.1875rem) center;
+      background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+
+    .form-control.is-invalid, .form-select.is-invalid {
+      border-color: #dc3545;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+      padding-right: 2.25rem;
+      background-repeat: no-repeat;
+      background-position: right calc(0.375em + 0.1875rem) center;
+      background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+
+    .valid-feedback {
+      display: none;
+      color: #28a745;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+
+    .invalid-feedback {
+      display: none;
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+
+    .is-valid ~ .valid-feedback,
+    .is-invalid ~ .invalid-feedback {
+      display: block;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #cf0f47 0%, #a00d3a 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(207, 15, 71, 0.3);
+    }
+
+    .submit-btn:disabled {
+      background: #6c757d;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .submit-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(30deg);
+      transition: all 0.3s;
+    }
+
+    .submit-btn:hover::after {
+      left: 100%;
+    }
+
+    .input-group-text {
+      background-color: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+      transition: all 0.3s;
+    }
+
+    .input-group .form-control {
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .input-group .form-control:focus {
+      border-left: none;
+    }
+
+    .input-group:focus-within .input-group-text {
+      border-color: #cf0f47;
+      background-color: white;
+    }
+
+    .input-group.is-valid .input-group-text {
+      border-color: #28a745;
+      color: #28a745;
+    }
+
+    .input-group.is-invalid .input-group-text {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+
+    /* Custom checkbox styling */
+    .form-check-input {
+      width: 1.2em;
+      height: 1.2em;
+      margin-top: 0.15em;
+      border: 2px solid #adb5bd;
+    }
+
+    .form-check-input:checked {
+      background-color: #cf0f47;
+      border-color: #cf0f47;
+    }
+
+    .form-check-input:focus {
+      box-shadow: 0 0 0 0.25rem rgba(207, 15, 71, 0.25);
+    }
+
+    .form-check-input.is-valid {
+      border-color: #28a745;
+    }
+
+    .form-check-input.is-invalid {
+      border-color: #dc3545;
+    }
+
+    /* Success message styling */
+    .alert-success {
+      background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(40, 167, 69, 0.05) 100%);
+      border: 1px solid rgba(40, 167, 69, 0.3);
+      border-radius: 10px;
+      color: #28a745;
+      font-weight: 500;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .deferral-card {
+        position: static;
+        margin-bottom: 2rem;
+      }
+      
+      .deferral-list {
+        max-height: 50vh;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        margin: 1rem auto;
+      }
+      
+      .form-body {
+        padding: 1.5rem;
+      }
+      
+      .form-header, .deferral-header {
+        padding: 1.5rem;
+      }
+      
+      .deferral-item {
+        padding: 0.5rem;
+      }
+      
+      .deferral-text {
+        font-size: 0.8rem;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+    <header>
+         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container-fluid">
+            <a class="navbar-brand" href="#">Kongu Blood Bank</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="index.html">About us</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="request.html" >Request Blood</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#" style="color: #ffcccb !important;">Donate</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="index.html">Contact us</a></li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+    </header>
+   
+
+
+  <div class="container-fluid">
+    <div class="main-container">
+      <div class="row g-4">
+        <!-- Left Side - Permanent Deferral Guidelines -->
+        <div class="col-lg-5">
+          <div class="deferral-card">
+            <div class="deferral-header">
+              <h3><i class="bi bi-exclamation-triangle-fill me-2"></i>Permanent Deferral Criteria</h3>
+              <p>Important conditions that permanently disqualify blood donation</p>
+            </div>
+            <div class="deferral-list">
+              <div class="deferral-item">
+                <div class="deferral-number">1</div>
+                <p class="deferral-text">History of AIDS or being HIV positive</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">2</div>
+                <p class="deferral-text">Hepatitis B or C infection</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">3</div>
+                <p class="deferral-text">History of intravenous drug use</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">4</div>
+                <p class="deferral-text">Blood cancer (leukemia, lymphoma, Hodgkin's disease)</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">5</div>
+                <p class="deferral-text">Chronic kidney disease requiring dialysis</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">6</div>
+                <p class="deferral-text">Heart disease with ongoing symptoms</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">7</div>
+                <p class="deferral-text">History of stroke or cerebrovascular disease</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">8</div>
+                <p class="deferral-text">Chronic lung disease (severe asthma, COPD)</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">9</div>
+                <p class="deferral-text">Insulin-dependent diabetes mellitus</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">10</div>
+                <p class="deferral-text">History of organ transplantation</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">11</div>
+                <p class="deferral-text">Chronic liver disease or cirrhosis</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">12</div>
+                <p class="deferral-text">History of Creutzfeldt-Jakob Disease (CJD)</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">13</div>
+                <p class="deferral-text">Bleeding disorders (hemophilia, von Willebrand disease)</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">14</div>
+                <p class="deferral-text">Chronic seizure disorder or epilepsy</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">15</div>
+                <p class="deferral-text">History of babesiosis or Chagas disease</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">16</div>
+                <p class="deferral-text">Multiple sclerosis or other autoimmune diseases</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">17</div>
+                <p class="deferral-text">History of tissue or dura mater transplant</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">18</div>
+                <p class="deferral-text">Chronic mental illness with ongoing treatment</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">19</div>
+                <p class="deferral-text">History of malaria in endemic areas</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">20</div>
+                <p class="deferral-text">Chronic inflammatory conditions (severe arthritis)</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">21</div>
+                <p class="deferral-text">History of human growth hormone treatment</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">22</div>
+                <p class="deferral-text">Chronic use of immunosuppressive medications</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">23</div>
+                <p class="deferral-text">History of tuberculosis with lung complications</p>
+              </div>
+              <div class="deferral-item">
+                <div class="deferral-number">24</div>
+                <p class="deferral-text">Any condition deemed unsafe by medical staff</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side - Donor Registration Form -->
+        <div class="col-lg-7">
+          <div class="form-card">
+            <div class="form-header">
+              <h3><i class="bi bi-heart-fill me-2"></i>Blood Donor Registration</h3>
+              <p>Join our community of life-savers</p>
+            </div>
+            <div class="form-body">
+              <form id="donorForm" novalidate>
+                <div id="successMessage" class="alert alert-success d-none">
+                  <i class="bi bi-check-circle-fill me-2"></i>
+                  <span id="successText"></span>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-8 mb-3">
+                    <label for="donorName" class="form-label">
+                      <i class="bi bi-person-fill"></i>Donor's Name *
+                    </label>
+                    <input type="text" class="form-control" id="donorName" name="donorName" required>
+                    <div class="valid-feedback">
+                      Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                      Please enter a valid name (minimum 2 characters, letters only)
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="age" class="form-label">
+                      <i class="bi bi-calendar-check"></i>Age *
+                    </label>
+                    <input type="number" class="form-control" id="age" name="age" min="18" max="65" required>
+                    <div class="valid-feedback">
+                      Valid age for donation
+                    </div>
+                    <div class="invalid-feedback">
+                      Age must be between 18 and 65 years
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="sex" class="form-label">
+                      <i class="bi bi-gender-ambiguous"></i>Sex *
+                    </label>
+                    <select class="form-select" id="sex" name="sex" required>
+                      <option value="">Choose...</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div class="valid-feedback">
+                      Selected
+                    </div>
+                    <div class="invalid-feedback">
+                      Please select your sex
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="dob" class="form-label">
+                      <i class="bi bi-calendar-event"></i>Date of Birth *
+                    </label>
+                    <input type="date" class="form-control" id="dob" name="dob" required>
+                    <div class="valid-feedback">
+                      Valid date of birth
+                    </div>
+                    <div class="invalid-feedback">
+                      Please enter a valid date of birth (age must be 18-65)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="address" class="form-label">
+                    <i class="bi bi-geo-alt-fill"></i>Address *
+                  </label>
+                  <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                  <div class="valid-feedback">
+                      Address looks good
+                    </div>
+                    <div class="invalid-feedback">
+                      Address must be at least 10 characters long
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">
+                      <i class="bi bi-envelope-fill"></i>Email ID *
+                    </label>
+                    <div class="input-group">
+                      <span class="input-group-text">@</span>
+                      <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="valid-feedback">
+                      Email looks valid
+                    </div>
+                    <div class="invalid-feedback">
+                      Please enter a valid email address
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="phone" class="form-label">
+                      <i class="bi bi-telephone-fill"></i>Phone Number *
+                    </label>
+                    <div class="input-group">
+                      <span class="input-group-text">+91</span>
+                      <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" required>
+                    </div>
+                    <div class="valid-feedback">
+                      Phone number looks good
+                    </div>
+                    <div class="invalid-feedback">
+                      Please enter a valid 10-digit phone number
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="occupation" class="form-label">
+                    <i class="bi bi-briefcase-fill"></i>Occupation *
+                  </label>
+                  <input type="text" class="form-control" id="occupation" name="occupation" required>
+                  <div class="valid-feedback">
+                    Valid occupation
+                  </div>
+                  <div class="invalid-feedback">
+                    Please enter your occupation (minimum 2 characters)
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label" for="terms">
+                      I agree to the <a href="#" class="text-decoration-none">terms and conditions</a> and confirm that I have read the permanent deferral criteria. *
+                    </label>
+                    <div class="valid-feedback">
+                      Thank you for agreeing
+                    </div>
+                    <div class="invalid-feedback">
+                      You must agree to the terms and conditions
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary submit-btn">
+                  <i class="bi bi-heart-pulse me-2"></i>Register as Blood Donor
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Enhanced Validation Script -->
+  <script>
+    (function() {
+      'use strict';
+      
+      const form = document.getElementById('donorForm');
+      const dobInput = document.getElementById('dob');
+      const ageInput = document.getElementById('age');
+      const successMessage = document.getElementById('successMessage');
+      const successText = document.getElementById('successText');
+      
+      // Set max date to 18 years ago and min date to 65 years ago
+      const today = new Date();
+      const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+      const minDate = new Date(today.getFullYear() - 65, today.getMonth(), today.getDate());
+      
+      dobInput.max = maxDate.toISOString().split('T')[0];
+      dobInput.min = minDate.toISOString().split('T')[0];
+      
+      // Auto-calculate age from DOB
+      dobInput.addEventListener('change', function() {
+        const birthDate = new Date(this.value);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        
+        ageInput.value = age;
+        validateField(ageInput);
+      });
+
+      // Validation functions
+      function validateName(name) {
+        const namePattern = /^[a-zA-Z\s]{2,}$/;
+        return namePattern.test(name.trim());
+      }
+
+      function validateAge(age) {
+        return age >= 18 && age <= 65;
+      }
+
+      function validateEmail(email) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+      }
+
+      function validatePhone(phone) {
+        const phonePattern = /^[0-9]{10}$/;
+        return phonePattern.test(phone);
+      }
+
+      function validateAddress(address) {
+        return address.trim().length >= 10;
+      }
+
+      function validateOccupation(occupation) {
+        return occupation.trim().length >= 2;
+      }
+
+      function validateDOB(dob) {
+        const birthDate = new Date(dob);
+        const today = new Date();
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        let actualAge = age;
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+          actualAge--;
+        }
+        
+        return actualAge >= 18 && actualAge <= 65;
+      }
+
+      // Generic field validation function
+      function validateField(field) {
+        const fieldName = field.name;
+        const fieldValue = field.value;
+        let isValid = false;
+
+        // Remove existing validation classes
+        field.classList.remove('is-valid', 'is-invalid');
+        
+        // Special handling for input groups
+        if (field.parentElement.classList.contains('input-group')) {
+          field.parentElement.classList.remove('is-valid', 'is-invalid');
+        }
+
+        // Skip validation if field is empty (except for required fields during real-time validation)
+        if (fieldValue.trim() === '' && field !== document.activeElement) {
+          return;
+        }
+
+        switch (fieldName) {
+          case 'donorName':
+            isValid = validateName(fieldValue);
+            break;
+          case 'age':
+            isValid = fieldValue !== '' && validateAge(parseInt(fieldValue));
+            break;
+          case 'sex':
+            isValid = fieldValue !== '';
+            break;
+          case 'dob':
+            isValid = fieldValue !== '' && validateDOB(fieldValue);
+            break;
+          case 'address':
+            isValid = validateAddress(fieldValue);
+            break;
+          case 'email':
+            isValid = validateEmail(fieldValue);
+            break;
+          case 'phone':
+            isValid = validatePhone(fieldValue);
+            break;
+          case 'occupation':
+            isValid = validateOccupation(fieldValue);
+            break;
+        }
+
+        // Apply validation classes
+        if (fieldValue.trim() !== '') {
+          if (isValid) {
+            field.classList.add('is-valid');
+            if (field.parentElement.classList.contains('input-group')) {
+              field.parentElement.classList.add('is-valid');
+            }
+          } else {
+            field.classList.add('is-invalid');
+            if (field.parentElement.classList.contains('input-group')) {
+              field.parentElement.classList.add('is-invalid');
+            }
+          }
+        }
+      }
+
+      // Add real-time validation to all form fields
+      const formFields = form.querySelectorAll('input, select, textarea');
+      formFields.forEach(field => {
+        // Validate on input (real-time)
+        field.addEventListener('input', function() {
+          validateField(this);
+        });
+
+        // Validate on blur (when user leaves the field)
+        field.addEventListener('blur', function() {
+          validateField(this);
+        });
+
+        // Validate on change (for select fields)
+        field.addEventListener('change', function() {
+          validateField(this);
+        });
+      });
+
+      // Special handling for checkbox
+      const termsCheckbox = document.getElementById('terms');
+      termsCheckbox.addEventListener('change', function() {
+        this.classList.remove('is-valid', 'is-invalid');
+        if (this.checked) {
+          this.classList.add('is-valid');
+        } else {
+          this.classList.add('is-invalid');
+        }
+      });
+
+      // Form submission validation
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        let isFormValid = true;
+        
+        // Validate all fields
+        formFields.forEach(field => {
+          validateField(field);
+          if (field.hasAttribute('required')) {
+            if (field.value.trim() === '') {
+              field.classList.add('is-invalid');
+              if (field.parentElement.classList.contains('input-group')) {
+                field.parentElement.classList.add('is-invalid');
+              }
+              isFormValid = false;
+            } else if (field.classList.contains('is-invalid')) {
+              isFormValid = false;
+            }
+          }
+        });
+
+        // Validate terms checkbox
+        if (!termsCheckbox.checked) {
+          termsCheckbox.classList.add('is-invalid');
+          isFormValid = false;
+        }
+
+        if (isFormValid) {
+          // Show success message
+          const formData = new FormData(form);
+          const data = Object.fromEntries(formData);
+          
+          successText.textContent = `Registration successful! Thank you ${data.donorName || 'Donor'} for becoming a blood donor. Our team will contact you soon at ${data.email || 'your email'}.`;
+          successMessage.classList.remove('d-none');
+          
+          // Scroll to success message
+          successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          
+          // Reset form after 5 seconds
+          setTimeout(() => {
+            form.reset();
+            formFields.forEach(field => {
+              field.classList.remove('is-valid', 'is-invalid');
+              if (field.parentElement.classList.contains('input-group')) {
+                field.parentElement.classList.remove('is-valid', 'is-invalid');
+              }
+            });
+            termsCheckbox.classList.remove('is-valid', 'is-invalid');
+            successMessage.classList.add('d-none');
+          }, 5000);
+          
+        } else {
+          // Scroll to first invalid field
+          const firstInvalidField = form.querySelector('.is-invalid');
+          if (firstInvalidField) {
+            firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstInvalidField.focus();
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

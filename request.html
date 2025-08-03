@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood / Blood‑Component Request | Kongu Blood Bank</title>
+
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    /* Global Font Style */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar Styling */
+    nav {
+      background-color: #cf0f47;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1030;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 20px rgba(207, 15, 71, 0.3);
+    }
+
+    .navbar-brand {
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+
+    .navbar-brand:hover {
+      color: #ffffff !important;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      transform: scale(1.05);
+    }
+
+    .nav-link {
+      position: relative;
+      transition: all 0.3s ease;
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem !important;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      color: #ffffff !important;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background-color: #ffffff;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover::after {
+      width: 80%;
+    }
+
+    /* Page Banner */
+    .bb-banner {
+      background: linear-gradient(135deg, #cf0f47 0%, #b50e40 50%, #a00d39 100%);
+      color: #fff;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 70px;
+    }
+
+    .bb-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.05"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.05"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.03"/><circle cx="10" cy="60" r="0.5" fill="%23ffffff" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      pointer-events: none;
+    }
+
+    .bb-banner h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .bb-banner .lead {
+      font-size: 1.3rem;
+      font-weight: 400;
+      opacity: 0.95;
+    }
+
+    /* Emergency Contact Card */
+    .emergency-card {
+      max-width: 1100px;
+      margin: 3rem auto 4rem;
+      background: linear-gradient(135deg, #fff5f7 0%, #ffe8ed 100%);
+      border: 2px solid #cf0f47;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(207, 15, 71, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .emergency-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .emergency-icon {
+      font-size: 3rem;
+      color: #cf0f47;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .emergency-title {
+      color: #cf0f47;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+    }
+
+    .emergency-text {
+      color: #8b0000;
+      font-weight: 500;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .contact-info {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .contact-info p {
+      color: #5d4e37;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .contact-info i {
+      color: #cf0f47;
+      width: 16px;
+    }
+
+    .btn-emergency {
+      background: transparent;
+      color: #cf0f47;
+      border: 2px solid #cf0f47;
+      padding: 0.8rem 1.5rem;
+      font-weight: 600;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(207, 15, 71, 0.1);
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 5px 15px rgba(207, 15, 71, 0.1); }
+      50% { box-shadow: 0 8px 25px rgba(207, 15, 71, 0.2); }
+    }
+
+    .btn-emergency:hover {
+      background: #cf0f47;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(207, 15, 71, 0.3);
+    }
+
+    /* Form Card */
+    .bb-card {
+      max-width: 1100px;
+      margin: 0 auto 4rem;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      padding: 3rem 2.5rem;
+      position: relative;
+      z-index: 10;
+      border: 1px solid rgba(207, 15, 71, 0.1);
+    }
+
+    /* Section Headers */
+    .section-header {
+      color: #cf0f47;
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid #cf0f47;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #cf0f47, #ff6b9d);
+    }
+
+    /* Form Controls */
+    .form-label {
+      font-weight: 600;
+      color: #cf0f47;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .form-control, .form-select {
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      background-color: #fafbfc;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #cf0f47;
+      box-shadow: 0 0 0 0.2rem rgba(207, 15, 71, 0.15);
+      background-color: #fff;
+    }
+
+    .form-control:invalid, .form-select:invalid {
+      border-color: #cf0f47;
+      background-color: #fff5f7;
+    }
+
+    .invalid-feedback {
+      color: #cf0f47;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+
+    /* Radio Buttons and Checkboxes */
+    .form-check-input {
+      border: 2px solid #cf0f47;
+      margin-top: 0.2rem;
+    }
+
+    .form-check-input:checked {
+      background-color: #cf0f47;
+      border-color: #cf0f47;
+    }
+
+    .form-check-input:focus {
+      box-shadow: 0 0 0 0.2rem rgba(207, 15, 71, 0.15);
+    }
+
+    .form-check-label {
+      font-weight: 500;
+      color: #495057;
+      margin-left: 0.5rem;
+    }
+
+    /* Component Checkboxes */
+    .component-checkbox {
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 1rem;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+
+    .component-checkbox:hover {
+      background: #fff;
+      border-color: #cf0f47;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(207, 15, 71, 0.1);
+    }
+
+    .component-checkbox .form-check-input:checked ~ .form-check-label {
+      color: #cf0f47;
+      font-weight: 600;
+    }
+
+    /* Female Section */
+    #femaleSection {
+      background: linear-gradient(135deg, #fff5f7 0%, #ffe8ed 100%);
+      border: 2px solid rgba(207, 15, 71, 0.1);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    /* Submit Button */
+    .btn-bb {
+      background: linear-gradient(135deg, #cf0f47 0%, #b50e40 100%);
+      color: #fff;
+      border: none;
+      padding: 1rem 3rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 30px rgba(207, 15, 71, 0.3);
+    }
+
+    .btn-bb:hover {
+      background: linear-gradient(135deg, #b50e40 0%, #a00d39 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(207, 15, 71, 0.4);
+    }
+
+    .btn-bb:active {
+      transform: translateY(-1px);
+    }
+
+    /* Icons for sections */
+    .section-icon {
+      display: inline-block;
+      margin-right: 0.5rem;
+      color: #cf0f47;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      /* Mobile Navigation Center Alignment */
+      .navbar-nav {
+        text-align: center;
+      }
+      
+      .nav-item {
+        margin: 0.2rem 0;
+      }
+      
+      .nav-link {
+        padding: 0.8rem 1rem !important;
+        margin: 0;
+        border-radius: 8px;
+      }
+      
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .emergency-card {
+        margin: 2rem 1rem 3rem;
+        padding: 1.5rem;
+      }
+
+      .emergency-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .emergency-title {
+        font-size: 1.1rem;
+      }
+
+      .emergency-text {
+        font-size: 0.9rem;
+      }
+
+      .contact-info {
+        margin-top: 1rem;
+        padding: 0.8rem;
+      }
+
+      .contact-info p {
+        font-size: 0.85rem;
+      }
+
+      .btn-emergency {
+        width: 100%;
+        margin-top: 1rem;
+      }
+
+      .bb-banner {
+        padding: 6rem 1rem 3rem;
+      }
+
+      .bb-banner h2 {
+        font-size: 2rem;
+      }
+
+      .bb-card {
+        margin: 0 1rem 2rem;
+        padding: 2rem 1.5rem;
+      }
+
+      .section-header {
+        font-size: 1.2rem;
+      }
+
+      .component-checkbox {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .bb-banner h2 {
+        font-size: 1.5rem;
+      }
+
+      .bb-card {
+        padding: 1.5rem 1rem;
+      }
+
+      .btn-bb {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+      }
+    }
+
+    /* Animation for form appearance */
+    .bb-card {
+      animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Loading state for submit button */
+    .btn-bb.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .btn-bb.loading::after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Kongu Blood Bank</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="index.html">About us</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#" style="color: #ffcccb !important;">Request Blood</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="donate.html">Donate</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="index.html">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Banner -->
+  <header class="bb-banner">
+    <div class="container">
+      <h2 class="mb-1 fw-bold">
+        <i class="bi bi-heart-pulse section-icon"></i>
+        REQUEST FOR BLOOD & BLOOD COMPONENTS
+      </h2>
+      <p class="lead mb-0">Please complete all required details before submission. Your request helps save lives.</p>
+    </div>
+  </header>
+
+  <!-- Emergency Contact Card -->
+  <div class="container">
+    <div class="emergency-card">
+      <div class="row align-items-center">
+        <div class="col-md-2 text-center">
+          <i class="bi bi-exclamation-triangle-fill emergency-icon"></i>
+        </div>
+        <div class="col-md-7">
+          <h5 class="emergency-title">Emergency Blood Request?</h5>
+          <p class="emergency-text mb-2">If you need blood urgently or this is a medical emergency, please contact our management immediately for faster processing.</p>
+          <div class="contact-info">
+            <p class="mb-1"><i class="bi bi-telephone-fill me-2"></i><strong>Emergency Hotline:</strong> +91 98765 43210</p>
+            <p class="mb-1"><i class="bi bi-telephone me-2"></i><strong>General Inquiry:</strong> +91 98765 43211</p>
+            <p class="mb-0"><i class="bi bi-geo-alt-fill me-2"></i><strong>Address:</strong> Kongu Blood Bank, Kongu Nagar, Perundurai Road, Erode - 638052, Tamil Nadu</p>
+          </div>
+        </div>
+        <div class="col-md-3 text-center">
+          <a href="tel:+919876543210" class="btn btn-emergency">
+            <i class="bi bi-telephone-fill me-2"></i>Call Now
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bb-card">
+      <form class="needs-validation" novalidate>
+
+        <!-- Section 1: Patient Details -->
+        <h5 class="section-header">
+          <i class="bi bi-person-fill section-icon"></i>
+          Patient Details
+        </h5>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Patient Name *</label>
+            <input type="text" class="form-control" required placeholder="Enter full name">
+            <div class="invalid-feedback">Patient name is required.</div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Age (years) *</label>
+            <input type="number" min="0" max="120" class="form-control" required placeholder="Age">
+            <div class="invalid-feedback">Valid age is required.</div>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label d-block">Gender *</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="sex" id="sexMale" value="M" required>
+              <label class="form-check-label" for="sexMale">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="sex" id="sexFemale" value="F" required>
+              <label class="form-check-label" for="sexFemale">Female</label>
+            </div>
+            <div class="invalid-feedback">Please select gender.</div>
+          </div>
+
+          <div class="col-md-4 col-lg-3">
+            <label class="form-label">IP Number *</label>
+            <input type="text" class="form-control" required placeholder="IP No.">
+            <div class="invalid-feedback">IP number is required.</div>
+          </div>
+
+          <div class="col-md-4 col-lg-3">
+            <label class="form-label">Room Number *</label>
+            <input type="text" class="form-control" required placeholder="Room No.">
+            <div class="invalid-feedback">Room number is required.</div>
+          </div>
+
+          <div class="col-md-4 col-lg-3">
+            <label class="form-label">Blood Group & Rh *</label>
+            <select class="form-select" required>
+              <option value="">Select Blood Group</option>
+              <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+            </select>
+            <div class="invalid-feedback">Blood group is required.</div>
+          </div>
+
+          <div class="col-md-12 col-lg-3">
+            <label class="form-label">Referring Doctor *</label>
+            <input type="text" class="form-control" required placeholder="Dr. Name">
+            <div class="invalid-feedback">Referring doctor name is required.</div>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Hospital Name *</label>
+            <input type="text" class="form-control" required placeholder="Enter hospital name">
+            <div class="invalid-feedback">Hospital name is required.</div>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Diagnosis / Remarks</label>
+            <textarea class="form-control" rows="3" placeholder="Enter diagnosis or any additional remarks (optional)"></textarea>
+          </div>
+        </div>
+
+        <!-- Section 2: Medical History -->
+        <h5 class="section-header mt-5">
+          <i class="bi bi-clipboard-data section-icon"></i>
+          Medical History
+        </h5>
+        
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="d-block form-label">Previous Blood Transfusion *</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="prevTransfusion" id="ptYes" value="yes" required>
+              <label class="form-check-label" for="ptYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="prevTransfusion" id="ptNo" value="no" required>
+              <label class="form-check-label" for="ptNo">No</label>
+            </div>
+            <div class="invalid-feedback">Please select an option.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="d-block form-label">Any Transfusion Reaction? *</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="reaction" id="trYes" value="yes" required>
+              <label class="form-check-label" for="trYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="reaction" id="trNo" value="no" required>
+              <label class="form-check-label" for="trNo">No</label>
+            </div>
+            <div class="invalid-feedback">Please select an option.</div>
+          </div>
+        </div>
+
+        <!-- Section 3: Female-specific Questions -->
+        <div id="femaleSection" style="display:none">
+          <h5 class="section-header">
+            <i class="bi bi-person-hearts section-icon"></i>
+            Additional Information (Female Patient)
+          </h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="d-block form-label">Currently Pregnant *</label>
+              <div class="component-checkbox">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="pregnant" id="pregnantYes" value="yes" required>
+                  <label class="form-check-label" for="pregnantYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="pregnant" id="pregnantNo" value="no" required>
+                  <label class="form-check-label" for="pregnantNo">No</label>
+                </div>
+                <div class="invalid-feedback">Please select an option.</div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="d-block form-label">History of Still Birth *</label>
+              <div class="component-checkbox">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="stillbirth" id="stillbirthYes" value="yes" required>
+                  <label class="form-check-label" for="stillbirthYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="stillbirth" id="stillbirthNo" value="no" required>
+                  <label class="form-check-label" for="stillbirthNo">No</label>
+                </div>
+                <div class="invalid-feedback">Please select an option.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Blood Counts -->
+        <h5 class="section-header mt-5">
+          <i class="bi bi-droplet section-icon"></i>
+          Laboratory Results
+        </h5>
+        
+        <div class="row g-3">
+          <div class="col-md-4 col-lg-2">
+            <label class="form-label">WBC Count</label>
+            <input type="number" class="form-control" placeholder="cells/µL">
+          </div>
+          <div class="col-md-4 col-lg-2">
+            <label class="form-label">RBC Count</label>
+            <input type="number" class="form-control" placeholder="million/µL">
+          </div>
+          <div class="col-md-4 col-lg-2">
+            <label class="form-label">Hemoglobin</label>
+            <input type="number" step="0.1" class="form-control" placeholder="g/dL">
+          </div>
+          <div class="col-md-4 col-lg-2">
+            <label class="form-label">PCV/Hematocrit</label>
+            <input type="number" step="0.1" class="form-control" placeholder="%">
+          </div>
+          <div class="col-md-4 col-lg-2">
+            <label class="form-label">Platelet Count</label>
+            <input type="number" class="form-control" placeholder="cells/µL">
+          </div>
+          <div class="col-md-4 col-lg-2">
+            <label class="form-label">Other Values</label>
+            <input type="text" class="form-control" placeholder="Optional">
+          </div>
+        </div>
+
+        <!-- Section 5: Request Details -->
+        <h5 class="section-header mt-5">
+          <i class="bi bi-calendar-check section-icon"></i>
+          Request Details
+        </h5>
+        
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Required Date *</label>
+            <input type="date" class="form-control" required>
+            <div class="invalid-feedback">Please select required date.</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Required Time *</label>
+            <input type="time" class="form-control" required>
+            <div class="invalid-feedback">Please select required time.</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Units Needed *</label>
+            <input type="number" min="1" max="10" class="form-control" required placeholder="Number of units">
+            <div class="invalid-feedback">Please enter number of units needed.</div>
+          </div>
+        </div>
+
+        <!-- Blood Components Selection -->
+        <h6 class="mt-4 mb-3" style="color: #cf0f47; font-weight: 600;">
+          <i class="bi bi-list-check section-icon"></i>
+          Select Required Blood Components:
+        </h6>
+        
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-3">
+            <div class="component-checkbox">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="wholeBlood">
+                <label class="form-check-label" for="wholeBlood">
+                  <i class="bi bi-droplet-fill text-danger me-2"></i>
+                  Whole Blood
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="component-checkbox">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="packedCells">
+                <label class="form-check-label" for="packedCells">
+                  <i class="bi bi-droplet-half text-danger me-2"></i>
+                  Red Cell Concentrates
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="component-checkbox">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="plateletConc">
+                <label class="form-check-label" for="plateletConc">
+                  <i class="bi bi-circle-fill text-warning me-2"></i>
+                  Platelet Concentrate
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="component-checkbox">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="ffp">
+                <label class="form-check-label" for="ffp">
+                  <i class="bi bi-droplet text-info me-2"></i>
+                  Fresh Frozen Plasma
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center mt-5">
+          <button type="submit" class="btn btn-bb px-5">
+            <i class="bi bi-send-fill me-2"></i>
+            Submit Blood Request
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Bootstrap form validation
+      'use strict';
+      const forms = document.querySelectorAll('.needs-validation');
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          } else {
+            event.preventDefault();
+            // Add loading state to button
+            const submitBtn = form.querySelector('.btn-bb');
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Processing Request...';
+            
+            // Simulate form submission
+            setTimeout(() => {
+              alert('Blood request submitted successfully! You will be contacted soon.');
+              submitBtn.classList.remove('loading');
+              submitBtn.innerHTML = '<i class="bi bi-send-fill me-2"></i>Submit Blood Request';
+              form.reset();
+              form.classList.remove('was-validated');
+              document.getElementById('femaleSection').style.display = 'none';
+            }, 2000);
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+
+      // Show/hide female section based on gender selection
+      const sexRadios = document.querySelectorAll('input[name="sex"]');
+      const femaleSection = document.getElementById('femaleSection');
+      
+      sexRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          if (document.getElementById('sexFemale').checked) {
+            femaleSection.style.display = 'block';
+            femaleSection.style.animation = 'slideUp 0.5s ease-out';
+            // Make female-specific fields required
+            femaleSection.querySelectorAll('input').forEach(input => {
+              input.required = true;
+            });
+          } else {
+            femaleSection.style.display = 'none';
+            // Remove required attribute and clear values
+            femaleSection.querySelectorAll('input').forEach(input => {
+              input.required = false;
+              input.checked = false;
+            });
+          }
+        });
+      });
+
+      // Auto-set current date for required date
+      const today = new Date().toISOString().split('T')[0];
+      const requiredDateInput = document.querySelector('input[type="date"]');
+      if (requiredDateInput && !requiredDateInput.value) {
+        requiredDateInput.value = today;
+      }
+
+      // Auto-set current time for required time
+      const now = new Date();
+      const currentTime = now.getHours().toString().padStart(2, '0') + ':' + 
+                         now.getMinutes().toString().padStart(2, '0');
+      const requiredTimeInput = document.querySelector('input[type="time"]');
+      if (requiredTimeInput && !requiredTimeInput.value) {
+        requiredTimeInput.value = currentTime;
+      }
+    });
+  </script>
+</body>
+</html>
